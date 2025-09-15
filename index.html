@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ditzy Vercel - Text Repeater & Stickers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>✨ Welcome to Ditzy Vercel ✨</h1>
+    <p>Play with Text Repeater & Sticker Maker directly in your browser</p>
+  </header>
+
+  <main class="grid">
+    <a class="card" href="#repeated-text">🔁 Repeated Text</a>
+    <a class="card" href="#random-text">🔄 Random Text</a>
+    <a class="card" href="#repeated-letters">🔡 Repeated Letters</a>
+    <a class="card" href="#crazy-text">🤪 Crazy Text</a>
+    <a class="card" href="#emoticons">😊 Emoticons</a>
+    <a class="card" href="#blank-text">⬜ Blank Text</a>
+    <a class="card" href="#emoji-translator">😎 Emoji Translator</a>
+    <a class="card" href="#bold-letters">🅱️ Bold Letters</a>
+    <a class="card" href="#shuffle-words">🔀 Shuffle Words</a>
+    <a class="card" href="#stickers">🖼️ Sticker Maker</a>
+  </main>
+
+  <!-- Section Sticker Maker -->
+  <section id="stickers">
+    <h2>🖼️ Buat Stiker WhatsApp</h2>
+    <p>Pilih emoji atau upload foto untuk dijadikan stiker (512x512 px).</p>
+
+    <!-- Pilih emoji -->
+    <button onclick="makeSticker('😀')">😀 Senyum</button>
+    <button onclick="makeSticker('😂')">😂 Ketawa</button>
+    <button onclick="makeSticker('😎')">😎 Cool</button>
+
+    <br><br>
+
+    <!-- Upload foto -->
+    <input type="file" id="upload" accept="image/*" onchange="previewFile()">
+    <br><br>
+
+    <canvas id="canvas" width="512" height="512" style="display:none;"></canvas>
+    <br>
+    <a id="download" style="display:none;" download="sticker.png">⬇️ Download Stiker</a>
+  </section>
+
+  <footer>
+    <p>Made with ❤️ by Ditzy - Hosted on Vercel</p>
+  </footer>
+
+  <script>
+    function makeSticker(emoji) {
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,512,512);
+      ctx.font = "400px serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(emoji, 256, 256);
+      showDownload();
+    }
+
+    function previewFile() {
+      const file = document.getElementById('upload').files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        let img = new Image();
+        img.onload = function() {
+          let canvas = document.getElementById("canvas");
+          let ctx = canvas.getContext("2d");
+          ctx.clearRect(0,0,512,512);
+          ctx.drawImage(img, 0, 0, 512, 512);
+          showDownload();
+        }
+        img.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+
+    function showDownload() {
+      let canvas = document.getElementById("canvas");
+      let download = document.getElementById("download");
+      download.href = canvas.toDataURL("image/png");
+      download.style.display = "inline-block";
+    }
+  </script>
+</body>
+      </html>
